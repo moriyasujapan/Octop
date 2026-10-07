@@ -32,7 +32,11 @@ import { useTranslation } from "react-i18next";
 import { authApi } from "../api/modules/auth";
 import { preferencesApi } from "../api/modules/preferences";
 import { clearAuthToken } from "../api/request";
-import { applyGuestLocale, applyUserLocale } from "../utils/locale";
+import {
+  applyGuestLocale,
+  applyUserLocale,
+  normalizeUiLocale,
+} from "../utils/locale";
 import { apiErrorMessage } from "../utils/apiError";
 import { isSsoPopupMessage, openSsoPopup } from "../utils/ssoPopup";
 import {
@@ -260,7 +264,7 @@ export default function AvatarDropdown({
     }
   };
 
-  const currentLang = i18n.language?.startsWith("zh") ? "zh" : "en";
+  const currentLang = normalizeUiLocale(i18n.language);
   const roleLabel =
     role === "admin" ? t("account.roleAdmin") : t("account.roleUser");
 
@@ -633,6 +637,7 @@ export default function AvatarDropdown({
           options={[
             { label: t("account.langZh"), value: "zh" },
             { label: t("account.langEn"), value: "en" },
+            { label: t("account.langJa", "日本語"), value: "ja" },
           ]}
           onChange={(val) => handleLocaleChange(val as string)}
         />
